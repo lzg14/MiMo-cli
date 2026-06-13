@@ -30,7 +30,7 @@ const visionDescribe: Command = {
       throw new CLIError('Image path is required. Usage: mimo vision describe --image <path>');
     }
 
-    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.minimax.chat';
+    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
 
     const { readFileSync } = await import('fs');
     const imageBuffer = readFileSync(imagePath);

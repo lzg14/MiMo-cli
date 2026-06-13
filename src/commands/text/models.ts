@@ -15,7 +15,7 @@ const models: Command = {
       throw new CLIError('API key not found. Run "mimo auth login --api-key <key>" first.');
     }
 
-    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.minimax.chat';
+    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
 
     console.log(`
 MiMo Models:

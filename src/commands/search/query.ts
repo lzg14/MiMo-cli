@@ -25,7 +25,7 @@ const searchQuery: Command = {
       throw new CLIError('Query is required. Usage: mimo search query "your question"');
     }
 
-    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.minimax.chat';
+    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
 
     const response = await fetch(`${baseUrl}/v1/coding_plan/search`, {
       method: 'POST',

@@ -30,9 +30,6 @@ ${bold('Commands:')}
   auth       Authentication (login, logout, status)
   config     CLI configuration (show, set)
   speech     Speech synthesis (TTS)
-  image      Image generation
-  video      Video generation
-  music      Music generation
   search     Web search
   vision     Image understanding
   quota      Show token usage

@@ -1,14 +1,11 @@
 # mimo-cli - Xiaomi MiMo CLI
 
-Command-line tool for Xiaomi MiMo models. Text chat, speech synthesis, image generation, video generation, music generation, web search, and vision understanding.
+Command-line tool for Xiaomi MiMo models. Text chat, speech synthesis, web search, and vision understanding.
 
 ## Features
 
 - **Chat** - Interactive text chat with MiMo models
 - **Speech** - Text-to-speech synthesis (TTS)
-- **Image** - Image generation from text
-- **Video** - Video generation from text or images
-- **Music** - Music generation from text descriptions
 - **Search** - Web search powered by MiMo
 - **Vision** - Image understanding with VLM
 - **Quota** - View token usage and quota
@@ -48,9 +45,6 @@ mimo chat "Hello, who are you?"
 # Speech synthesis
 mimo speech synthesize --text "Hello world" --out output.mp3
 
-# Image generation
-mimo image generate --prompt "A cute cat" --out image.png
-
 # Web search
 mimo search query "latest news about AI"
 
@@ -73,9 +67,6 @@ mimo quota show
 | `mimo config` | Show configuration |
 | `mimo config set <key> <value>` | Set a configuration value |
 | `mimo speech synthesize [options]` | Text-to-speech synthesis |
-| `mimo image generate [options]` | Generate images |
-| `mimo video generate [options]` | Generate videos |
-| `mimo music generate [options]` | Generate music |
 | `mimo search query <query>` | Web search |
 | `mimo vision describe [options]` | Image understanding |
 | `mimo quota show` | Show token usage |
@@ -112,22 +103,6 @@ mimo quota show
 | `--out, -o <file>` | Output audio file |
 | `--voice <name>` | Voice name |
 
-### Image Options
-
-| Flag | Description |
-|------|-------------|
-| `--prompt, -p <text>` | Image description |
-| `--out, -o <file>` | Output image file |
-| `--size <size>` | Image size (e.g., 1024x1024) |
-
-### Video Options
-
-| Flag | Description |
-|------|-------------|
-| `--prompt, -p <text>` | Video description |
-| `--model <model>` | Model (video-01, video-01-live) |
-| `--duration <seconds>` | Duration (5-15) |
-
 ### Vision Options
 
 | Flag | Description |
@@ -142,8 +117,8 @@ Config file: `~/.mimo/config.json`
 ```json
 {
   "apiKey": "sk-xxxxx",
-  "baseUrl": "https://api.minimax.chat",
-  "model": "MiniMax-M2.7",
+  "baseUrl": "https://api.xiaomimimo.com",
+  "model": "mimo-v2.5-pro",
   "output": "text",
   "timeout": 120
 }
@@ -152,7 +127,7 @@ Config file: `~/.mimo/config.json`
 Or use CLI commands:
 
 ```bash
-mimo config set model MiniMax-M2.7
+mimo config set model mimo-v2.5-pro
 mimo config
 ```
 
@@ -168,9 +143,10 @@ mimo config
 
 | Model | Context | Description |
 |-------|---------|-------------|
-| `MiniMax-M2.7` | 1M | Most capable, best for complex tasks |
-| `MiniMax-M2.5` | 256K | Balanced performance |
-| `MiniMax-M2` | 128K | Cost effective |
+| `mimo-v2.5-pro` | 1M | Most capable, best for complex tasks |
+| `mimo-v2.5` | 1M | Fast, low-cost |
+| `mimo-v2-pro` | 256K | High performance |
+| `mimo-v2-flash` | 1M | Fast, low-cost (deprecated, will auto-migrate to V2.5) |
 
 ## Development
 

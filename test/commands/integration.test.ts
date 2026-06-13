@@ -97,27 +97,6 @@ describe('mimo CLI', () => {
     });
   });
 
-  describe('image generate', () => {
-    it('runs without crashing with --help', async () => {
-      const result = await run(['image', 'generate', '--help']);
-      assert.ok(result.code === 0 || result.code === 1);
-    });
-  });
-
-  describe('video generate', () => {
-    it('runs without crashing with --help', async () => {
-      const result = await run(['video', 'generate', '--help']);
-      assert.ok(result.code === 0 || result.code === 1);
-    });
-  });
-
-  describe('music generate', () => {
-    it('runs without crashing with --help', async () => {
-      const result = await run(['music', 'generate', '--help']);
-      assert.ok(result.code === 0 || result.code === 1);
-    });
-  });
-
   describe('search query', () => {
     it('runs without crashing with --help', async () => {
       const result = await run(['search', 'query', '--help']);

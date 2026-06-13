@@ -37,9 +37,9 @@ const chat: Command = {
     const stream = flags['stream'] !== false && flags['no-stream'] !== true;
     const outputJson = flags['json'] === true;
 
-    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.minimax.chat';
+    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
 
-    const response = await fetch(`${baseUrl}/v1/text/chatcompletion_v2`, {
+    const response = await fetch(`${baseUrl}/v1/chat/completions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

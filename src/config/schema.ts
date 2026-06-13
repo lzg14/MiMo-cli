@@ -9,7 +9,7 @@ export interface Config {
 }
 
 export const DEFAULT_CONFIG: Config = {
-  baseUrl: 'https://api.minimax.chat',
+  baseUrl: 'https://api.xiaomimimo.com',
   model: 'MiniMax-M2.7',
   output: 'text',
   timeout: 120,

@@ -12,9 +12,6 @@ import authStatus from './commands/auth/status.js';
 import configShow from './commands/config/show.js';
 import configSet from './commands/config/set.js';
 import speechSynthesize from './commands/speech/synthesize.js';
-import imageGenerate from './commands/image/generate.js';
-import videoGenerate from './commands/video/generate.js';
-import musicGenerate from './commands/music/generate.js';
 import searchQuery from './commands/search/query.js';
 import visionDescribe from './commands/vision/describe.js';
 import quotaShow from './commands/quota/show.js';
@@ -29,9 +26,6 @@ const registry = new CommandRegistry({
   'config': configShow,
   'config set': configSet,
   'speech synthesize': speechSynthesize,
-  'image generate': imageGenerate,
-  'video generate': videoGenerate,
-  'music generate': musicGenerate,
   'search query': searchQuery,
   'vision describe': visionDescribe,
   'quota show': quotaShow,

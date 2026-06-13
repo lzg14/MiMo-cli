@@ -31,7 +31,7 @@ const speechSynthesize: Command = {
     }
 
     const outFile = (flags['out'] as string) || (flags['o'] as string) || 'output.mp3';
-    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.minimax.chat';
+    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
     const voice = (flags['voice'] as string) || 'female-qn';
 
     console.log(`Synthesizing speech...`);
