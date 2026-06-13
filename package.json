@@ -1,0 +1,39 @@
+{
+  "name": "@lzg14/mimo-cli",
+  "version": "0.1.0",
+  "description": "Command-line tool for Xiaomi MiMo models",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "mimo": "dist/mimo.js"
+  },
+  "files": [
+    "dist/mimo.js"
+  ],
+  "scripts": {
+    "dev": "node --experimental-strip-types src/main.ts",
+    "build": "node scripts/build.js",
+    "build:watch": "node scripts/build.js --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/**/*.test.ts"
+  },
+  "keywords": [
+    "mimo",
+    "minimax",
+    "cli",
+    "ai"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lzg14/MiMo-cli.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "esbuild": "^0.25.3"
+  }
+}
