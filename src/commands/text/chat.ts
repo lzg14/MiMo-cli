@@ -50,6 +50,7 @@ const chat: Command = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
+      signal: AbortSignal.timeout(config.timeout * 1000),
       body: JSON.stringify({
         model,
         messages,
@@ -68,21 +69,40 @@ const chat: Command = {
 
       process.stdout.write('\n');
       const decoder = new TextDecoder();
+      let buffer = '';
       let fullContent = '';
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true });
-        fullContent += chunk;
-        process.stdout.write(chunk);
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith('data:')) {
+            const data = trimmed.slice(5).trim();
+            if (data === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(data);
+              const delta = parsed.choices?.[0]?.delta?.content || '';
+              if (delta) {
+                fullContent += delta;
+                process.stdout.write(delta);
+              }
+            } catch {
+              // skip malformed JSON
+            }
+          }
+        }
       }
 
       process.stdout.write('\n');
 
       if (outputJson) {
-        console.log(JSON.stringify({ response: fullContent, model, usage: {} }));
+        console.log(JSON.stringify({ response: fullContent, model }));
       }
     } else {
       const data = await response.json();

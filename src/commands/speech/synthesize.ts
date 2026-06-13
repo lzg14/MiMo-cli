@@ -1,3 +1,4 @@
+import { writeFileSync } from 'fs';
 import type { Command } from '../command.js';
 import { loadConfig } from '../../config/loader.js';
 import { CLIError } from '../../errors/base.js';
@@ -42,8 +43,8 @@ const speechSynthesize: Command = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
+      signal: AbortSignal.timeout(config.timeout * 1000),
       body: JSON.stringify({
-        model: 'speech-02-hd',
         text,
         stream: false,
         voice_setting: {
@@ -58,7 +59,6 @@ const speechSynthesize: Command = {
     }
 
     const buffer = await response.arrayBuffer();
-    const { writeFileSync } = await import('fs');
     writeFileSync(outFile, Buffer.from(buffer));
 
     console.log(`Audio saved to: ${outFile}`);

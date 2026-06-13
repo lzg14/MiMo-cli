@@ -1,6 +1,7 @@
 import type { Command } from '../command.js';
 import { saveConfig } from '../../config/loader.js';
 import { bold, dim } from '../../utils/style.js';
+import { CLIError } from '../../errors/base.js';
 
 const authLogin: Command = {
   name: 'auth login',
@@ -12,13 +13,10 @@ const authLogin: Command = {
     const apiKey = flags['api-key'] as string | undefined;
 
     if (!apiKey) {
-      console.error('Error: --api-key is required');
-      console.log(`
-Usage: mimo auth login --api-key <your-api-key>
-
-You can get your API key from: https://platform.minimax.chat
-`);
-      process.exit(1);
+      throw new CLIError(
+        '--api-key is required. Get your key from: https://platform.xiaomimimo.com\n' +
+        'Usage: mimo auth login --api-key <your-api-key>'
+      );
     }
 
     saveConfig({ apiKey });

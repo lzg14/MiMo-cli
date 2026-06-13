@@ -1,6 +1,6 @@
 {
   "name": "@lzg14/mimo-cli",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Command-line tool for Xiaomi MiMo models",
   "type": "module",
   "engines": {

@@ -19,6 +19,7 @@ const quotaShow: Command = {
 
     const response = await fetch(`${baseUrl}/v1/token_plan/remains`, {
       method: 'GET',
+      signal: AbortSignal.timeout(config.timeout * 1000),
       headers: {
         'Authorization': `Bearer ${apiKey}`,
       },

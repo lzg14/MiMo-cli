@@ -33,8 +33,8 @@ const searchQuery: Command = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
+      signal: AbortSignal.timeout(config.timeout * 1000),
       body: JSON.stringify({
-        query,
         top_k: 10,
       }),
     });

@@ -35,6 +35,7 @@ For more information: https://mimo.mi.com/docs
     try {
       const response = await fetch(`${baseUrl}/v1/models`, {
         method: 'GET',
+        signal: AbortSignal.timeout(10000),
         headers: {
           'Authorization': `Bearer ${apiKey}`,
         },

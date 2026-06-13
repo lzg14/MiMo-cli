@@ -1,7 +1,10 @@
-import { readFileSync } from 'fs';
+import { readFile, access } from 'fs/promises';
+import { parse, resolve, isAbsolute } from 'path';
 import type { Command } from '../command.js';
 import { loadConfig } from '../../config/loader.js';
 import { CLIError } from '../../errors/base.js';
+
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024;
 
 const visionDescribe: Command = {
   name: 'vision describe',
@@ -31,17 +34,28 @@ const visionDescribe: Command = {
       throw new CLIError('Image path is required. Usage: mimo vision describe --image <path>');
     }
 
-    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
+    const resolved = isAbsolute(imagePath) ? resolve(imagePath) : resolve(process.cwd(), imagePath);
+    try {
+      await access(resolved);
+    } catch {
+      throw new CLIError(`Image file not found: ${imagePath}`);
+    }
 
-    const { ext } = require('path').parse(imagePath);
+    const { ext } = parse(resolved);
     const mimeMap: Record<string, string> = {
       '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
       '.gif': 'image/gif', '.webp': 'image/webp', '.bmp': 'image/bmp',
     };
     const mimeType = mimeMap[ext.toLowerCase()] || 'image/jpeg';
 
-    const imageBuffer = readFileSync(imagePath);
+    const imageBuffer = await readFile(resolved);
+
+    if (imageBuffer.length > MAX_IMAGE_SIZE) {
+      throw new CLIError(`Image too large: ${(imageBuffer.length / 1024 / 1024).toFixed(1)}MB (max 10MB)`);
+    }
+
     const base64Image = imageBuffer.toString('base64');
+    const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
 
     const response = await fetch(`${baseUrl}/v1/chat/completions`, {
       method: 'POST',
@@ -49,6 +63,7 @@ const visionDescribe: Command = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
+      signal: AbortSignal.timeout(config.timeout * 1000),
       body: JSON.stringify({
         model: 'mimo-v2.5',
         messages: [
