@@ -18,4 +18,7 @@ await esbuild.build({
   },
   external: [],
   logLevel: 'info',
+  banner: {
+    js: '#!/usr/bin/env node',
+  },
 });
