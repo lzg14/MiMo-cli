@@ -10,7 +10,7 @@ const help: Command = {
 
   async execute(args) {
     if (args.length > 0) {
-      console.log(`Run 'mimo " + args[0] + " --help' for command help.`);
+      console.log(`Run 'mimo ${args[0]} --help' for command help.`);
       return;
     }
 

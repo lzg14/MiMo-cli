@@ -8,7 +8,7 @@ const chat: Command = {
   usage: 'mimo chat [options] [message]',
   examples: [
     'mimo chat "Hello, who are you?"',
-    'mimo chat --model MiniMax-M2.7 "Explain quantum computing"',
+    'mimo chat --model mimo-v2.5-pro "Explain quantum computing"',
     'mimo chat --no-stream',
   ],
   options: [
@@ -33,11 +33,16 @@ const chat: Command = {
       throw new CLIError('Message is required. Usage: mimo chat "your message"');
     }
 
-    const model = (flags['model'] as string) || config.model || 'MiniMax-M2.7';
+    const model = (flags['model'] as string) || config.model || 'mimo-v2.5-pro';
+    const systemPrompt = (flags['system'] as string) || undefined;
     const stream = flags['stream'] !== false && flags['no-stream'] !== true;
     const outputJson = flags['json'] === true;
 
     const baseUrl = (flags['base-url'] as string) || config.baseUrl || 'https://api.xiaomimimo.com';
+
+    const messages: Array<{ role: string; content: string }> = [];
+    if (systemPrompt) messages.push({ role: 'system', content: systemPrompt });
+    messages.push({ role: 'user', content: message });
 
     const response = await fetch(`${baseUrl}/v1/chat/completions`, {
       method: 'POST',
@@ -47,9 +52,7 @@ const chat: Command = {
       },
       body: JSON.stringify({
         model,
-        messages: [
-          { role: 'user', content: message },
-        ],
+        messages,
         stream: stream,
       }),
     });

@@ -71,11 +71,7 @@ export class CommandRegistry {
     }
 
     for (const [name, childNode] of node.children) {
-      if (childNode.command) {
-        suggestions.push(`  ${name}`);
-      } else {
-        suggestions.push(`  ${name}`);
-      }
+      suggestions.push(`  ${name}`);
     }
 
     return suggestions;

@@ -22,11 +22,14 @@ MiMo Models:
 ═══════════════════════════════════════════════════════
 Model                 Context   Description
 ───────────────────────────────────────────────────────
-MiniMax-M2.7          1M        Most capable, best for complex tasks
-MiniMax-M2.5          256K      Balanced performance
-MiniMax-M2            128K      Cost effective
+mimo-v2.5-pro         1M        Most capable, best for complex tasks
+mimo-v2.5             1M        Fast, low-cost
+mimo-v2-pro           256K      High performance
+mimo-v2-flash         1M        Fast, low-cost (deprecated)
+mimo-v2.5-asr         -         Speech recognition (ASR)
+mimo-v2.5-tts         -         Speech synthesis (TTS)
 ───────────────────────────────────────────────────────
-For more information: https://platform.minimax.chat
+For more information: https://mimo.mi.com/docs
 `);
 
     try {

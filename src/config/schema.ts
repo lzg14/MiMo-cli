@@ -10,7 +10,7 @@ export interface Config {
 
 export const DEFAULT_CONFIG: Config = {
   baseUrl: 'https://api.xiaomimimo.com',
-  model: 'MiniMax-M2.7',
+  model: 'mimo-v2.5-pro',
   output: 'text',
   timeout: 120,
   quiet: false,

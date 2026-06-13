@@ -23,6 +23,8 @@ export function loadConfig(): Config {
     cachedConfig = { ...DEFAULT_CONFIG };
   }
 
+  if (process.env.MIMO_API_KEY) cachedConfig.apiKey = process.env.MIMO_API_KEY;
+
   return cachedConfig;
 }
 
