@@ -5,7 +5,8 @@ import { bold, dim } from '../utils/style.js';
 export function errorHandler(error: unknown): void {
   if (error instanceof CLIError) {
     console.error(`error: ${error.message}`);
-    process.exit(error.exitCode);
+    process.exitCode = error.exitCode;
+    return;
   }
 
   if (error instanceof Error) {
@@ -14,10 +15,9 @@ export function errorHandler(error: unknown): void {
     } else {
       console.error(dim(error.message));
     }
-    console.error(bold(`\nRun with --verbose for more details.`));
   } else {
     console.error('Unknown error:', error);
   }
 
-  process.exit(ExitCode.ERROR);
+  process.exitCode = ExitCode.ERROR;
 }

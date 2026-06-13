@@ -15,7 +15,7 @@ import speechSynthesize from './commands/speech/synthesize.js';
 import searchQuery from './commands/search/query.js';
 import visionDescribe from './commands/vision/describe.js';
 import quotaShow from './commands/quota/show.js';
-import help from './commands/help.js';
+import help, { setCommandResolver } from './commands/help.js';
 
 const registry = new CommandRegistry({
   'chat': chat,
@@ -31,6 +31,8 @@ const registry = new CommandRegistry({
   'quota show': quotaShow,
   'help': help,
 });
+
+setCommandResolver((path) => registry.resolve(path));
 
 process.stdout.on('error', () => {});
 process.stderr.on('error', () => {});

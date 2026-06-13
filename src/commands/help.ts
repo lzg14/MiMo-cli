@@ -2,6 +2,12 @@ import type { Command } from '../command.js';
 import { bold, dim } from '../utils/style.js';
 import { CLI_VERSION } from '../version.js';
 
+let resolveCommand: ((path: string[]) => { command: Command; extra: string[] } | null) | null = null;
+
+export function setCommandResolver(resolver: (path: string[]) => { command: Command; extra: string[] } | null) {
+  resolveCommand = resolver;
+}
+
 const help: Command = {
   name: 'help',
   description: 'Show help information',
@@ -9,9 +15,12 @@ const help: Command = {
   examples: ['mimo help', 'mimo help chat'],
 
   async execute(args) {
-    if (args.length > 0) {
-      console.log(`Run 'mimo ${args[0]} --help' for command help.`);
-      return;
+    if (args.length > 0 && resolveCommand) {
+      const resolved = resolveCommand(args);
+      if (resolved) {
+        printCommandHelp(resolved.command);
+        return;
+      }
     }
 
     printGlobalHelp();
