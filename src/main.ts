@@ -36,32 +36,12 @@ process.stdout.on('error', () => {});
 process.stderr.on('error', () => {});
 
 function parseArgs(args: string[]): { commandPath: string[]; extra: string[]; flags: Record<string, string | boolean> } {
-  const commandPath: string[] = [];
-  const extra: string[] = [];
+  const positional: string[] = [];
   const flags: Record<string, string | boolean> = {};
 
   let i = 0;
-  let commandDone = false;
-
   while (i < args.length) {
     const arg = args[i];
-
-    if (arg.startsWith('--') || (arg.startsWith('-') && arg.length > 1)) {
-      commandDone = true;
-    }
-
-    if (!commandDone && !arg.startsWith('-')) {
-      const candidate = [...commandPath, arg];
-      if (registry.resolve(candidate)) {
-        commandPath.push(arg);
-        i++;
-        continue;
-      }
-      if (commandPath.length > 0) {
-        commandDone = true;
-      }
-    }
-
     if (arg.startsWith('--')) {
       const flagName = arg.slice(2);
       if (i + 1 < args.length && !args[i + 1].startsWith('-')) {
@@ -77,9 +57,30 @@ function parseArgs(args: string[]): { commandPath: string[]; extra: string[]; fl
         flags[shortFlag] = true;
       }
     } else {
-      extra.push(arg);
+      positional.push(arg);
     }
     i++;
+  }
+
+  let commandPath: string[] = [];
+  let extra: string[] = [];
+
+  for (let j = 0; j < positional.length; j++) {
+    const candidate = [...commandPath, positional[j]];
+    if (registry.resolve(candidate)) {
+      commandPath = candidate;
+    } else if (commandPath.length > 0) {
+      extra = positional.slice(j);
+      break;
+    } else {
+      extra = positional.slice(j);
+      break;
+    }
+  }
+
+  if (commandPath.length === 0 && positional.length > 0) {
+    commandPath = [positional[0]];
+    extra = positional.slice(1);
   }
 
   return { commandPath, extra, flags };
